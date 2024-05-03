@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import connectDB from './db/index.js'
+import { app } from './app.js'
 
 
 // config dotenv
@@ -7,7 +8,22 @@ import connectDB from './db/index.js'
 dotenv.config({path:'./env'})
 
 connectDB()
+.then(() => {
 
+    // server error
+
+    app.on('error', () => {
+        console.log(`Server error: `, error)
+    })
+
+    app.listen(process.env.PORT || 3000, () => {
+        console.log(`server is running at PORT: ${process.env.PORT}`)
+    })
+    
+})
+.catch((error) => {
+    console.log(`MONGODB connection failed !!!!:`, error)
+})
 
 
 
